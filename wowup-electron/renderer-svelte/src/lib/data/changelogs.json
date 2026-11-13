@@ -1,6 +1,6 @@
 [
 	{
-		"Version": "2.25.4 #next",
+		"Version": "2.25.4 #49",
 		"Night": true,
 		"html": "\n    <h4>Fixes</h4>\n    <ul>\n    <li>Launch WowUp with system works again. WowUpNight only registered itself with the system at the moment the option was switched on, so it showed as on but started nothing at login when it was carried over from WowUp, or switched on before the rename to WowUpNight. It now registers on every launch, as WowUp did</li>\n    </ul>\n    "
 	},
