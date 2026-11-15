@@ -26,11 +26,12 @@
 
 ## What is different
 
-- **Small and quick to start.** Built on [Tauri](https://tauri.app) and
+- **Small, quick to start and lighter.** Built on [Tauri](https://tauri.app) and
   [Svelte](https://svelte.dev) instead of Electron and Angular, it uses the webview your system
   already has rather than shipping its own browser. Downloads are 11–15 MB, against 111–128 MB
-  for WowUp, and on Linux it is running a third of a second after launch, where WowUp takes 1.7
-  seconds. See [how it compares](#how-it-compares).
+  for WowUp. On Linux it is running a third of a second after launch, where WowUp takes 1.9
+  seconds, and it uses a fifth less memory with the window open and two-fifths less in the
+  tray. See [how it compares](#how-it-compares).
 - **A colour for each WoW version.** Retail, Classic, Anniversary, the PTRs and the rest each get
   their own colour, taken from their logos: the addon lists are framed in it, and the version list
   marks each one, so you always know which game you are looking at. Pick your own in Options →
@@ -82,7 +83,7 @@ that, and can be installed side by side.
 
 ## How it compares
 
-WowUpNight build 49 against WowUp 2.25.5, the latest Electron release, on 14 November 2026.
+WowUpNight build 50 against WowUp 2.25.5, the latest Electron release, on 14 November 2026.
 
 | | WowUp | WowUpNight |
 |---|---:|---:|
@@ -92,28 +93,30 @@ WowUpNight build 49 against WowUp 2.25.5, the latest Electron release, on 14 Nov
 | Linux AppImage | 128 MB | 14 MB |
 | Linux AppImage, unpacked | 329 MB | 28 MB |
 | **Window open** | | |
-| Running, after launch | 1.7 s | 0.3 s |
-| First addon check done, after launch | 3.7 s | 4.2 s |
-| Memory | 735 MB | 699 MB |
+| Running, after launch | 1.9 s | 0.4 s |
+| First addon check done, after launch | 4.0 s | 4.4 s |
+| Memory | 743 MB | 585 MB |
 | Processes | 14 | 5 |
-| CPU when idle | 2.4% | 0.6% |
+| CPU when idle | 3.0% | 2.1% |
 | **In the tray**, as both start with the system | | |
-| Running, after launch | 1.7 s | 0.3 s |
-| First addon check done, after launch | 3.7 s | 3.3 s |
-| Memory | 623 MB | 461 MB |
-| Processes | 9 | 5 |
-| CPU when idle | 1.5% | 0.4% |
+| Running, after launch | 1.9 s | 0.3 s |
+| First addon check done, after launch | 3.9 s | 3.6 s |
+| Memory | 634 MB | 388 MB |
+| Processes | 10 | 5 |
+| CPU when idle | 1.8% | 0.7% |
 
 The download sizes are those of the two releases. Everything below them was measured on Linux
 (KDE Plasma on Wayland, a Ryzen 7 7800X3D on its built-in graphics), with both apps on the same
 255 addons across two WoW versions, as the median of five launches after a warm-up.
 
-- **Memory includes graphics memory.** WowUp keeps about 165 MB of its memory on the graphics
+- **Memory includes graphics memory.** WowUp keeps about 180 MB of its memory on the graphics
   card, which a process's usual memory figure leaves out. CPU is the share of one core.
-- **With the window open, memory is about even**, and the first addon check ends half a second
-  later. The AppImage draws its window without the graphics card, a workaround for a window that
-  came back blank, and that drawing slows the check. In the tray WowUpNight is ahead on every
-  count.
+- **With the window open, the first addon check ends about a third of a second later.** The
+  AppImage draws its window without the graphics card, a workaround for a window that came back
+  blank, and that drawing slows the check. Everything else is in WowUpNight's favour.
+- **CPU when idle is mostly the Wago panel**, which both apps show, so it rises and falls with
+  the ad on display. On Linux WowUpNight runs its pages without WebKit's JavaScript compiler,
+  which saves it about 15% of its memory for a little more CPU.
 - **Windows and macOS were not measured** beyond their downloads. On Windows WowUpNight runs in
   Microsoft's WebView2, which is built on Chromium like Electron, so memory there may well be
   closer than on Linux.
