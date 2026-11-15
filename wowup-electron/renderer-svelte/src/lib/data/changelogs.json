@@ -1,6 +1,6 @@
 [
 	{
-		"Version": "2.25.4 #next",
+		"Version": "2.25.4 #50",
 		"Night": true,
 		"html": "\n    <h4>Changes</h4>\n    <ul>\n    <li>Linux: WowUpNight uses about 15% less memory, 60 to 115 MB less with the window open or in the tray. It now runs its pages without WebKit's JavaScript compiler, which uses more memory than it saves time here. The interface uses a little more CPU in exchange. To turn the compiler back on, start WowUpNight with JSC_useJIT=1</li>\n    </ul>\n    "
 	},
