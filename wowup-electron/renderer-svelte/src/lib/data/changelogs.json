@@ -1,5 +1,10 @@
 [
 	{
+		"Version": "2.25.4 #next",
+		"Night": true,
+		"html": "\n    <h4>Changes</h4>\n    <ul>\n    <li>Linux: WowUpNight uses about 15% less memory, 60 to 115 MB less with the window open or in the tray. It now runs its pages without WebKit's JavaScript compiler, which uses more memory than it saves time here. The interface uses a little more CPU in exchange. To turn the compiler back on, start WowUpNight with JSC_useJIT=1</li>\n    </ul>\n    "
+	},
+	{
 		"Version": "2.25.4 #49",
 		"Night": true,
 		"html": "\n    <h4>Fixes</h4>\n    <ul>\n    <li>Launch WowUp with system works again. WowUpNight only registered itself with the system at the moment the option was switched on, so it showed as on but started nothing at login when it was carried over from WowUp, or switched on before the rename to WowUpNight. It now registers on every launch, as WowUp did</li>\n    </ul>\n    "

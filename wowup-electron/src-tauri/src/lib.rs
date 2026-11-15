@@ -155,6 +155,18 @@ fn should_disable_dmabuf(
     appimage.is_some_and(|a| !a.is_empty()) && existing.is_none()
 }
 
+/// JavaScriptCore's JIT, which WebKitGTK's web processes read from their environment.
+///
+/// Turned off on Linux to save memory: the app's two pages, the interface and the Wago panel,
+/// are light on JavaScript, and compiled code and its bookkeeping cost about 15% of the app's
+/// memory. Measured on the AppImage, medians of five launches: 708 → 593 MB with the window
+/// open and an ad showing, 456 → 393 MB in the tray, with startup and the first addon check
+/// unchanged within the network's noise. The cost is CPU: steps in the interface used about
+/// 20% more of it, which left most of them as quick but made opening My Addons 60 ms and
+/// clearing its filter 170 ms slower, and idle CPU rose from about 0.8% to 1.7% of a core.
+/// A value the user set themselves is left alone, so `JSC_useJIT=1` brings the JIT back.
+const JSC_JIT_VAR: &str = "JSC_useJIT";
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     log_panics();
@@ -166,6 +178,10 @@ pub fn run() {
         std::env::var_os(WEBKIT_DMABUF_VAR).as_deref(),
     ) {
         std::env::set_var(WEBKIT_DMABUF_VAR, "1");
+    }
+    #[cfg(target_os = "linux")]
+    if std::env::var_os(JSC_JIT_VAR).is_none() {
+        std::env::set_var(JSC_JIT_VAR, "0");
     }
 
     tauri::Builder::default()
@@ -311,8 +327,10 @@ pub fn run() {
         .setup(|app| {
             log::info!("WowUp Tauri starting");
             #[cfg(target_os = "linux")]
-            if let Some(v) = std::env::var_os(WEBKIT_DMABUF_VAR) {
-                log::info!("{WEBKIT_DMABUF_VAR}={}", v.to_string_lossy());
+            for var in [WEBKIT_DMABUF_VAR, JSC_JIT_VAR] {
+                if let Some(v) = std::env::var_os(var) {
+                    log::info!("{var}={}", v.to_string_lossy());
+                }
             }
             // Before any store is touched: the Tauri build has its own data directory, so
             // without this a machine with an existing Electron install starts with no WoW
